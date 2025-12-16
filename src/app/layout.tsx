@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { pretendard } from './fonts/pretendard';
 import './globals.css';
+import Header from '@/components/layout/Header';
 
 export const metadata: Metadata = {
   title: 'Donto',
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={pretendard.variable}
     >
       <body className="font-sans">{children}</body>
+      <Header />
     </html>
   );
 }
