@@ -14,8 +14,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="ko"
       className={pretendard.variable}
     >
-      <body className="font-sans">{children}</body>
-      <Header />
+      <body className="font-sans">
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
