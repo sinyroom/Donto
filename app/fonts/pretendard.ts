@@ -1,0 +1,11 @@
+import localFont from 'next/font/local';
+
+export const pretendard = localFont({
+  src: [
+    { path: './Pretendard-Regular.woff', weight: '400' },
+    { path: './Pretendard-Medium.woff', weight: '500' },
+    { path: './Pretendard-Bold.woff', weight: '700' },
+  ],
+  variable: '--font-pretendard',
+  display: 'swap',
+});
