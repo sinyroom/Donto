@@ -74,4 +74,8 @@
     color: var(--color-fg);
     font-feature-settings: 'cv11';
   }
+
+  button {
+    cursor: pointer;
+  }
 }
