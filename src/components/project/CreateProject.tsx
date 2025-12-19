@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import BottomSheet from './BottomSheet';
+import BottomSheet from '../ui/BottomSheet';
 import Image from 'next/image';
 
 export default function CreateProject() {

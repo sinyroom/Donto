@@ -5,7 +5,7 @@ import SortSelect from './SortSelect';
 
 export default function ProjectContainer() {
   return (
-    <div className="flex flex-col gap-2 mt-2">
+    <div className="flex flex-col gap-4 mt-2">
       <div className="flex items-center justify-between">
         <CompleteCheck />
         <div className="flex items-center gap-1">

@@ -1,6 +1,12 @@
 import { createPortal } from 'react-dom';
 
-export default function BottomSheet({ open, onClose, children }) {
+type Props = {
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+};
+
+export default function BottomSheet({ open, onClose, children }: Props) {
   if (!open) return null;
 
   return createPortal(
