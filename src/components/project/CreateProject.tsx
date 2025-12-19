@@ -3,23 +3,24 @@
 import { useState } from 'react';
 import BottomSheet from '../ui/BottomSheet';
 import Image from 'next/image';
+import Button from '../ui/Button';
 
 export default function CreateProject() {
   const [open, setOpen] = useState(false);
 
   return (
     <>
-      <button
+      <Button
         onClick={() => setOpen(true)}
-        className="px-2.5 py-1.5 bg-primary text-primary-fg font-semibold text-sm rounded-lg hover:bg-orange-600"
+        className="px-2.5 py-1.5 text-sm hover:bg-orange-600"
       >
         새 이벤트
-      </button>
+      </Button>
       <BottomSheet
         open={open}
         onClose={() => setOpen(false)}
       >
-        <form className="flex flex-col gap-10 px-2.5 py-3">
+        <form className="flex flex-col gap-10 px-2.5 py-6">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-bold">새 이벤트 생성</h2>
             <button
@@ -89,8 +90,7 @@ export default function CreateProject() {
               />
             </div>
           </div>
-
-          <button type="submit">생성</button>
+          <Button className="h-10">생성하기</Button>
         </form>
       </BottomSheet>
     </>
