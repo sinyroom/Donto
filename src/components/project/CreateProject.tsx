@@ -4,9 +4,30 @@ import { useState } from 'react';
 import BottomSheet from '../ui/BottomSheet';
 import Image from 'next/image';
 import Button from '../ui/Button';
+import { createEvent } from '@/services/events';
 
-export default function CreateProject() {
+interface Props {
+  onCreated: () => void;
+}
+
+export default function CreateProject({ onCreated }: Props) {
   const [open, setOpen] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+
+    await createEvent({
+      name: formData.get('title') as string,
+      start_date: formData.get('startDate') as string,
+      end_date: formData.get('endDate') as string,
+      total_budget: Number(formData.get('budget')),
+    });
+
+    setOpen(false);
+    onCreated();
+  };
 
   return (
     <>
@@ -20,7 +41,10 @@ export default function CreateProject() {
         open={open}
         onClose={() => setOpen(false)}
       >
-        <form className="flex flex-col gap-10 px-2.5 py-6">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-10 px-2.5 py-6"
+        >
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-bold">새 이벤트 생성</h2>
             <button
@@ -90,7 +114,12 @@ export default function CreateProject() {
               />
             </div>
           </div>
-          <Button className="h-10">생성하기</Button>
+          <Button
+            className="h-10"
+            type="submit"
+          >
+            생성하기
+          </Button>
         </form>
       </BottomSheet>
     </>

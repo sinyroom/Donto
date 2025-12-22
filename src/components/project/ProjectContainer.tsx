@@ -11,10 +11,13 @@ import { getEvents } from '@/services/events';
 export default function ProjectContainer() {
   const [events, setEvents] = useState<Event[]>([]);
 
+  const fetchEvents = async () => {
+    const { data } = await getEvents();
+    if (data) setEvents(data);
+  };
+
   useEffect(() => {
-    getEvents().then(({ data }) => {
-      if (data) setEvents(data);
-    });
+    fetchEvents();
   }, []);
 
   return (
@@ -23,13 +26,18 @@ export default function ProjectContainer() {
         <CompleteCheck />
         <div className="flex items-center gap-1">
           <SortSelect />
-          <CreateProject />
+          <CreateProject onCreated={fetchEvents} />
         </div>
       </div>
       {events.map((event) => (
-        <div key={event.id}>{event.name}</div>
+        <ProjectCard
+          key={event.id}
+          title={event.name}
+          startDate={event.start_date}
+          endDate={event.end_date}
+          budget={event.total_budget}
+        />
       ))}
-      <ProjectCard />
     </div>
   );
 }
