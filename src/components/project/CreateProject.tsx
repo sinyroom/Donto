@@ -12,21 +12,28 @@ interface Props {
 
 export default function CreateProject({ onCreated }: Props) {
   const [open, setOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
     const formData = new FormData(e.currentTarget);
+    try {
+      await createEvent({
+        name: formData.get('title') as string,
+        start_date: formData.get('startDate') as string,
+        end_date: formData.get('endDate') as string,
+        total_budget: Number(formData.get('budget')),
+      });
 
-    await createEvent({
-      name: formData.get('title') as string,
-      start_date: formData.get('startDate') as string,
-      end_date: formData.get('endDate') as string,
-      total_budget: Number(formData.get('budget')),
-    });
-
-    setOpen(false);
-    onCreated();
+      setOpen(false);
+      onCreated();
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -117,8 +124,9 @@ export default function CreateProject({ onCreated }: Props) {
           <Button
             className="h-10"
             type="submit"
+            disabled={isSubmitting}
           >
-            생성하기
+            {isSubmitting ? '생성 중...' : '생성하기'}
           </Button>
         </form>
       </BottomSheet>
