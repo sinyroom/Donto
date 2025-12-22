@@ -1,9 +1,22 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import CompleteCheck from './CompleteCheck';
 import CreateProject from './CreateProject';
 import ProjectCard from './ProjectCard';
 import SortSelect from './SortSelect';
+import { Event } from '@/types/event';
+import { getEvents } from '@/services/events';
 
 export default function ProjectContainer() {
+  const [events, setEvents] = useState<Event[]>([]);
+
+  useEffect(() => {
+    getEvents().then(({ data }) => {
+      if (data) setEvents(data);
+    });
+  }, []);
+
   return (
     <div className="flex flex-col gap-4 mt-2">
       <div className="flex items-center justify-between">
@@ -13,6 +26,9 @@ export default function ProjectContainer() {
           <CreateProject />
         </div>
       </div>
+      {events.map((event) => (
+        <div key={event.id}>{event.name}</div>
+      ))}
       <ProjectCard />
     </div>
   );
