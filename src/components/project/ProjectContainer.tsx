@@ -9,11 +9,14 @@ import { ProjectEvent } from '@/types/event';
 import { deleteEvent, getEvents } from '@/services/events';
 import Button from '../ui/Button';
 
+export type SortType = 'latest' | 'oldest';
+
 export default function ProjectContainer() {
   const [events, setEvents] = useState<ProjectEvent[]>([]);
   const [open, setOpen] = useState(false);
   const [editingEvent, setEditingEvent] = useState<ProjectEvent | null>(null);
   const [showCompleted, setShowCompleted] = useState(false);
+  const [sort, setSort] = useState<SortType>('latest');
 
   const isCompleted = (event: ProjectEvent) => {
     return new Date(event.end_date) < new Date();
@@ -45,6 +48,12 @@ export default function ProjectContainer() {
   }, []);
 
   const visibleEvents = showCompleted ? events : events.filter((event) => !isCompleted(event));
+  const sortedEvents = [...visibleEvents].sort((a, b) => {
+    if (sort === 'latest') {
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+    }
+    return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+  });
 
   return (
     <div className="flex flex-col gap-4 mt-2">
@@ -54,7 +63,10 @@ export default function ProjectContainer() {
           onChange={(checked) => setShowCompleted(checked)}
         />
         <div className="flex items-center gap-1">
-          <SortSelect />
+          <SortSelect
+            value={sort}
+            onChange={setSort}
+          />
           <Button
             onClick={() => setOpen(true)}
             className="px-2.5 py-1.5 text-sm hover:bg-orange-600"
@@ -63,7 +75,7 @@ export default function ProjectContainer() {
           </Button>
         </div>
       </div>
-      {visibleEvents.map((event) => (
+      {sortedEvents.map((event) => (
         <ProjectCard
           key={event.id}
           id={event.id}

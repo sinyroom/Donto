@@ -5,7 +5,7 @@ interface Props {
 
 export default function CompleteCheck({ checked, onChange }: Props) {
   return (
-    <div>
+    <div className="ml-2">
       <label className="flex items-center gap-2 text-sm text-gray-700">
         <input
           type="checkbox"
