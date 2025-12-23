@@ -1,6 +1,6 @@
 export type EventStatus = 'active' | 'completed';
 
-export type Event = {
+export type ProjectEvent = {
   id: string;
   name: string;
   start_date: string;
