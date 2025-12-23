@@ -13,6 +13,11 @@ export default function ProjectContainer() {
   const [events, setEvents] = useState<ProjectEvent[]>([]);
   const [open, setOpen] = useState(false);
   const [editingEvent, setEditingEvent] = useState<ProjectEvent | null>(null);
+  const [showCompleted, setShowCompleted] = useState(false);
+
+  const isCompleted = (event: ProjectEvent) => {
+    return new Date(event.end_date) < new Date();
+  };
 
   const fetchEvents = async () => {
     const { data } = await getEvents();
@@ -39,10 +44,15 @@ export default function ProjectContainer() {
     fetchEvents();
   }, []);
 
+  const visibleEvents = showCompleted ? events : events.filter((event) => !isCompleted(event));
+
   return (
     <div className="flex flex-col gap-4 mt-2">
       <div className="flex items-center justify-between">
-        <CompleteCheck />
+        <CompleteCheck
+          checked={showCompleted}
+          onChange={(checked) => setShowCompleted(checked)}
+        />
         <div className="flex items-center gap-1">
           <SortSelect />
           <Button
@@ -53,7 +63,7 @@ export default function ProjectContainer() {
           </Button>
         </div>
       </div>
-      {events.map((event) => (
+      {visibleEvents.map((event) => (
         <ProjectCard
           key={event.id}
           id={event.id}
