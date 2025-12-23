@@ -17,6 +17,7 @@ interface Props {
 export default function CreateProject({ open, initialData, onClose, onCreated }: Props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({ name: '', start_date: '', end_date: '', total_budget: '' });
+
   const isEdit = Boolean(initialData);
 
   useEffect(() => {
@@ -56,6 +57,9 @@ export default function CreateProject({ open, initialData, onClose, onCreated }:
     }
   };
 
+  const todayStr = new Date().toISOString().split('T')[0];
+  const endDateMin = form.start_date && form.start_date > todayStr ? form.start_date : todayStr;
+
   return (
     <>
       <BottomSheet
@@ -88,7 +92,7 @@ export default function CreateProject({ open, initialData, onClose, onCreated }:
                 name="title"
                 required
                 placeholder="새 이벤트의 이름을 적어주세요."
-                className="border-b border-gray-300 p-1"
+                className="border-b border-gray-300 p-1 focus:outline-none focus:border-blue-500 transition-colors duration-200"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
               />
@@ -106,7 +110,7 @@ export default function CreateProject({ open, initialData, onClose, onCreated }:
                   name="startDate"
                   type="date"
                   required
-                  className="w-full border-b border-gray-300 p-1"
+                  className="w-full border-b border-gray-300 p-1 focus:outline-none focus:border-blue-500 transition-colors duration-200"
                   value={form.start_date}
                   onChange={(e) => setForm({ ...form, start_date: e.target.value })}
                 />
@@ -122,8 +126,9 @@ export default function CreateProject({ open, initialData, onClose, onCreated }:
                   id="endDate"
                   name="endDate"
                   type="date"
+                  min={endDateMin}
                   required
-                  className="w-full border-b border-gray-300 p-1"
+                  className="w-full border-b border-gray-300 p-1 focus:outline-none focus:border-blue-500 transition-colors duration-200"
                   value={form.end_date}
                   onChange={(e) => setForm({ ...form, end_date: e.target.value })}
                 />
@@ -137,7 +142,7 @@ export default function CreateProject({ open, initialData, onClose, onCreated }:
                 type="number"
                 required
                 placeholder="전체 예산을 적어주세요."
-                className="border-b border-gray-300 p-1"
+                className="border-b border-gray-300 p-1 focus:outline-none focus:border-blue-500 transition-colors duration-200"
                 value={form.total_budget}
                 onChange={(e) => setForm({ ...form, total_budget: e.target.value })}
               />

@@ -15,7 +15,7 @@ export default function BottomSheet({ open, onClose, children }: Props) {
       onClick={onClose}
     >
       <div
-        className="absolute bottom-0 w-full h-auto bg-white rounded-t-2xl"
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 max-w-180 w-full h-auto bg-white rounded-t-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {children}
